@@ -3,14 +3,16 @@
 # ~~~~
 
 # Home page
-GET     /                                           controllers.Competitions.index()
-GET    /questions                                   controllers.Questions.index()
-POST   /competition                                 controllers.Competitions.Create()
-POST   /question                                    controllers.Questions.Create()
-POST    /check                                      controllers.Questions.Check()
-GET    /competition/:id                             controllers.Competitions.Show(id: Integer)
-GET    /login                                       controllers.Users.index()
-POST   /createUser                                  controllers.Users.Create()
+GET     /                                          controllers.Competitions.index()
+GET    /questions                                  controllers.Questions.index()
+POST   /competition                                controllers.Competitions.Create()
+POST   /question                                   controllers.Questions.Create()
+POST   /check                                      controllers.Questions.Check()
+GET    /competition/:id                            controllers.Competitions.Show(id: Integer)
+GET    /login                                      controllers.Users.index()
+POST   /createUser                                 controllers.Users.Create()
+GET   /competition/:id/checkstate                  controllers.Competition.checkState(id: Integer)
+GET   /getCurrentQuestion                          controllers.Questitons.getCurrentQuestion()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.versioned(path="/public", file: Asset)

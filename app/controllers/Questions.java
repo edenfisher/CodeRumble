@@ -22,11 +22,12 @@ import java.util.List;
 
 public class Questions extends Controller {
 
-    public Result Show(int nCompID)
+    public Result getCurrentQuestion()
     {
+        int nCompID = Integer.parseInt(request().getQueryString("compId"));
         ObjectNode result = Json.newObject();
         Competition comp = Competition.find.byId((long) nCompID);
-        result.put("content", comp.getQuestions().get(comp.getCurrent_question()-1).getContent());
+        result.put("questionContent", comp.getQuestions().get(comp.getCurrent_question()-1).getContent());
         result.put("index", comp.getCurrent_question());
         result.put("numOfQuestions", comp.getQuestions().size());
         result.put("precenteges", (comp.getQuestions().size() - comp.getCurrent_question()) * 100);

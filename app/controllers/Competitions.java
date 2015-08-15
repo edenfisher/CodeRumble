@@ -47,7 +47,7 @@ public class Competitions extends Controller {
         return ok(competition.render(nID));
     }
 
-    public Result  CheckState(int nID) {
+    public Result  checkState(int nID) {
         Competition comp = Competition.find.byId((long) nID);
         ObjectNode result = Json.newObject();
         boolean bIsStarted = false;
