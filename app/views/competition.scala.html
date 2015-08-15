@@ -15,7 +15,11 @@
 
 <div ng-controller="competitions">
     <form novalidate class="css-form">
+
+        Waiting: {{ started }}
+         Timer: {{ timer }}
         <input type="hidden" ng-init="question.competitionId = @competitionId" value="1"  />
+        Question: {{ content }}
         Code: <textarea ng-model="question.code" required /></textarea><br />
         <input type="submit" ng-click="update(question)" value="Save" />
     </form>
@@ -39,6 +43,64 @@
     .controller('competitions', ['$scope', '$http', function($scope, $http) {
       $scope.master = '';
 
+       $scope.started = false;
+
+      $scope.checkState = function() {
+            $http.get('/competition/' + question.competitionId + '/checkstate').
+            then(function(response) {
+               if (response.data.finished)
+               {
+                          $http.get('/getCurrentQuestion?compId=' + question.competitionId).
+                            then(function(response) {
+                               $scope.content = response.data.questionContent;
+                                     var intr = $interval(function() {
+
+                                        $scope.master--;
+                                      }, 100 * respone.data.time);
+
+                                      $timeout(function() {$interval.cancel(intr);}, 100 * respone.data.time)
+
+                              // this callback will be called asynchronously
+                              // when the response is available
+                            }, function(response) {
+                              // called asynchronously if an error occurs
+                              // or server returns response with an error status.
+                            });
+               }
+
+
+              // this callback will be called asynchronously
+              // when the response is available
+            }, function(response) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+            });
+
+      };
+
+      $scope.checkStart = function() {
+           $http.get('/competition/' + question.competitionId + '/checkstate').
+            then(function(response) {
+               if (response.data.started)
+               {
+                          $interval.cancel(checkStart);
+                          $scope.started = true;
+
+                          $interval($scope.checkState(), 200);
+               }
+
+
+              // this callback will be called asynchronously
+              // when the response is available
+            }, function(response) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+            });
+        };
+
+
+
+        var checkStart = $interval($scope.checkStart(), 200);
 
       $scope.update = function(question) {
       // Simple POST request example (passing data) :
