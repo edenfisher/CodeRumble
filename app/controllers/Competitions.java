@@ -71,6 +71,10 @@ public class Competitions extends Controller {
                 {
                     // Add redirect to finish page
                 }
+                else
+                {
+                    comp.setCurrent_question(User.find.byId(Long.parseLong(session("userId"))).getCurrent_question() + 1);
+                }
             }
         }
         result.put("started", bIsStarted);
