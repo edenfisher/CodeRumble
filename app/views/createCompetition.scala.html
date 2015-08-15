@@ -1,0 +1,41 @@
+@(competitions: List[models.Competition], form: Form[models.Competition])
+
+
+<html>
+
+<head></head>
+
+<body>
+
+<h2>New competition</h2>
+        @helper.form(action = routes.Competitions.Create) {
+        @helper.inputText(form("name"), '_label -> "Name1")
+        @helper.inputText(form("number_of_questions"), '_label -> "Number of questions")
+        @helper.inputText(form("number_of_players"), '_label -> "Number of players")
+        @helper.inputText(form("current_question"), '_label -> "Current questions")
+
+        <input type="submit" value="New competition" />
+}
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Questions</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(comp <- competitions){
+    <tr>
+        <td>@comp.getName()</td>
+        <td>@comp.getId()</td>
+        <td>@comp.getQuestions().head.getContent()</td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+</body>
+
+</html>

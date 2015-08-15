@@ -1,0 +1,40 @@
+@(questions: List[models.Question], form: Form[models.Question])
+
+
+<html>
+
+<head></head>
+
+<body>
+
+<h2>New question</h2>
+@helper.form(action = routes.Questions.Create) {
+@helper.inputText(form("level"), '_label -> "level")
+@helper.inputText(form("time"), '_label -> "time")
+@helper.inputText(form("content"), '_label -> "content")
+@helper.inputText(form("result"), '_label -> "result"))
+
+
+<input type="submit" value="New question" />
+}
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(quest <- questions){
+    <tr>
+        <td>@quest.getContent()</td>
+        <td>@quest.getId()</td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+</body>
+
+</html>

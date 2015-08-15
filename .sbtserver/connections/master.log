@@ -1,0 +1,10 @@
+New log file opened at Fri Aug 14 15:40:27 IDT 2015 by 2012@Chen-TOSH
+Taking next connection to: 56641
+New client attempting to connect on port: 56642-56641
+  Address = /192.168.170.1:56641
+This client on port 56642 has uuid 5cd52a89-eaf8-4f90-88aa-f4afde6904a0 configName play-fork-run humanReadableName Play Fork Run protocolVersion 1 featureTags Vector()
+Connected Clients: play-fork-run-5cd52a89-eaf8-4f90-88aa-f4afde6904a0
+Taking next connection to: 56641
+Checking to see if clients are empty...
+We have 1 non-daemon clients, continuing serving connections.
+Taking next connection to: 56641

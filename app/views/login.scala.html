@@ -1,0 +1,38 @@
+@(users: List[models.User], form: Form[models.User])
+
+
+<html>
+
+<head></head>
+
+<body>
+
+<h2>New user</h2>
+@helper.form(action = routes.Users.Create) {
+@helper.inputText(form("name"), '_label -> "Name")
+@helper.inputText(form("competition.id"), '_label -> "competition")
+
+<input type="submit" value="New user" />
+}
+
+<table>
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+    </tr>
+    </thead>
+    <tbody>
+    @for(user <- users){
+    <tr>
+        <td>@user.getName()</td>
+        <td>@user.getId()</td>
+        <td>@user.getCompetition().getId()</td>
+    </tr>
+    }
+    </tbody>
+</table>
+
+</body>
+
+</html>

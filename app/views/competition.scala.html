@@ -1,0 +1,70 @@
+@(competitionId: Integer);
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Example - example-example33-production</title>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
+
+
+</head>
+<body ng-app="codeRumble">
+
+<div ng-controller="competitions">
+    <form novalidate class="css-form">
+        <input type="hidden" ng-init="question.competitionId = @competitionId" value="1"  />
+        Code: <textarea ng-model="question.code" required /></textarea><br />
+        <input type="submit" ng-click="update(question)" value="Save" />
+    </form>
+    <pre>form = {{code | json}}</pre>
+    <pre>master = {{master}}</pre>
+</div>
+
+
+<style type="text/css">
+    .css-form input.ng-invalid.ng-touched {
+    background-color: #FA787E;
+    }
+
+    .css-form input.ng-valid.ng-touched {
+    background-color: #78FA89;
+    }
+</style>
+
+<script>
+  angular.module('codeRumble', ['ngRoute'])
+    .controller('competitions', ['$scope', '$http', function($scope, $http) {
+      $scope.master = '';
+
+
+      $scope.update = function(question) {
+      // Simple POST request example (passing data) :
+      $http.post('/check', {competitionId: question.competitionId, code: question.code}).
+        then(function(response) {
+        if (!response.data.compiled) {
+          $scope.master = response.data.compileError;
+        }
+        else if (response.data.success) {
+            $scope.master = "Success";
+        }
+        else {
+            $scope.master = "compiled but invalid answer";
+        }
+          // this callback will be called asynchronously
+          // when the response is available
+        }, function(response) {
+            alert("error");
+          // called asynchronously if an error occurs
+          // or server returns response with an error status.
+        });
+      };
+
+    }]);
+
+
+</script>
+</body>
+</html>
