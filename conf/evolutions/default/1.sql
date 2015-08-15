@@ -9,7 +9,7 @@ create table t_competitions (
   number_of_questions       integer,
   number_of_players         integer,
   current_question          integer,
-  end_time                  time,
+  end_date                  date,
   constraint pk_t_competitions primary key (id))
 ;
 
@@ -26,6 +26,7 @@ create table t_users (
   id                        bigint not null,
   name                      varchar(255),
   competition_id            bigint,
+  current_question          integer,
   constraint pk_t_users primary key (id))
 ;
 

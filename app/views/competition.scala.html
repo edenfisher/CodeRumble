@@ -40,7 +40,7 @@
 
 <script>
   angular.module('codeRumble', ['ngRoute'])
-    .controller('competitions', ['$scope', '$http', function($scope, $http) {
+    .controller('competitions', ['$scope', '$http', '$interval', '$timeout', function($scope, $http, $timeout, $interval) {
       $scope.master = '';
 
        $scope.started = false;
