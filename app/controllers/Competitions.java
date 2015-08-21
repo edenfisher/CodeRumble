@@ -52,8 +52,11 @@ public class Competitions extends Controller {
         ObjectNode result = Json.newObject();
         boolean bIsStarted = false;
         boolean bIsFinished = false;
+
+        // Initlize the competition if this is the first time the method is called
         if(comp.getCurrent_question()==0)
         {
+            // Check if all of the users entered
             if(comp.getUsers().size()== comp.getNumber_of_players())
             {
                 comp.setCurrent_question(1);
@@ -64,9 +67,13 @@ public class Competitions extends Controller {
         else
         {
             bIsStarted = true;
-            if(new java.util.Date().getTime() == Competition.find.byId((long)nID).getEnd_date().getTime())
+
+            // Checks if the time for this question passed
+            if(new java.util.Date().getTime() >= Competition.find.byId((long)nID).getEnd_date().getTime())
             {
                 bIsFinished = true;
+
+                // Checks if this is the last question
                 if(comp.getCurrent_question() == comp.getQuestions().size())
                 {
                     // Add redirect to finish page
