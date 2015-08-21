@@ -51,18 +51,19 @@
                if (response.data.started)
                {
                           $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
-                            then(function(response) {
-                               $scope.content = response.data.questionContent;
+                            then(function(questionResponse) {
+                               $scope.master = questionResponse.data.time;
+                               $scope.content = questionResponse.data.questionContent;
                                      var intr = $interval(function() {
 
                                         $scope.master--;
-                                      }, 100 * respone.data.time);
+                                      }, 100 * questionResponse.data.time);
 
-                                      $timeout(function() {$interval.cancel(intr);}, 100 * respone.data.time)
+                                      $timeout(function() {$interval.cancel(intr);}, 100 * questionResponse.data.time)
 
                               // this callback will be called asynchronously
                               // when the response is available
-                            }, function(response) {
+                            }, function(questionResponse) {
                               // called asynchronously if an error occurs
                               // or server returns response with an error status.
                             });
