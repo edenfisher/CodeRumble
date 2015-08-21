@@ -15,6 +15,15 @@ public class User extends Model {
     @JoinColumn(name = "competition_id")
     Competition competition;
     int current_question;
+    int points;
+
+    public int getPoints() {
+        return points;
+    }
+
+    public void setPoints(int points) {
+        this.points = points;
+    }
 
     public static Finder<Long, User> find =
             new Finder<Long, User>(Long.class, User.class);

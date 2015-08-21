@@ -90,7 +90,7 @@ public class Questions extends Controller {
             BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String strOutput = "";
             String s;
-            while((s= stdInput.readLine())!=null)
+                while((s= stdInput.readLine())!=null)
             {
                 // Add maybe /n
                 strOutput+=s;

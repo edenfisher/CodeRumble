@@ -40,9 +40,10 @@ public class Competitions extends Controller {
     }
 
     /*public Result GetLeaderboard() {
-        return ok(index.render("Your new application is ready."));
-    }
-    */
+        val json
+
+    }*/
+
     public Result  Show(int nID) {
         return ok(competition.render(nID));
     }
