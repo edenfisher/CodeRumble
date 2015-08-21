@@ -24,10 +24,10 @@ public class Users extends Controller {
     public Result Create()
     {
         Form<User> form = usersForm.bindFromRequest(request());
-        session("userId", form.get().getId().toString());
         if(!form.hasErrors())
         {
             form.get().save();
+            session("userId", form.get().getId().toString());
             return (redirect(routes.Users.index()));
         }
         else
