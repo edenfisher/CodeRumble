@@ -18,7 +18,7 @@
 
         Waiting: {{ started }}
          Timer: {{ timer }}
-        <input type="hidden" ng-init="question.competitionId = @competitionId" value="1"  />
+        <input type="hidden" ng-init="question.competitionId = @competitionId" value="@competitionId" name="competitionId" />
         Question: {{ content }}
         Code: <textarea ng-model="question.code" required /></textarea><br />
         <input type="submit" ng-click="update(question)" value="Save" />
@@ -46,11 +46,11 @@
        $scope.started = false;
 
       $scope.checkState = function() {
-            $http.get('/competition/' + question.competitionId + '/checkstate').
+            $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/checkstate').
             then(function(response) {
-               if (response.data.finished)
+               if (response.data.started)
                {
-                          $http.get('/getCurrentQuestion?compId=' + question.competitionId).
+                          $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
                             then(function(response) {
                                $scope.content = response.data.questionContent;
                                      var intr = $interval(function() {
@@ -79,7 +79,7 @@
       };
 
       $scope.checkStart = function() {
-           $http.get('/competition/' + '1' + '/checkstate').
+           $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/checkstate').
             then(function(response) {
                if (response.data.started)
                {
