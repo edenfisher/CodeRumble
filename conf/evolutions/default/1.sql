@@ -27,6 +27,7 @@ create table t_users (
   name                      varchar(255),
   competition_id            bigint,
   current_question          integer,
+  points                    integer,
   constraint pk_t_users primary key (id))
 ;
 
