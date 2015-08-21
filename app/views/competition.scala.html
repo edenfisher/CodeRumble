@@ -79,7 +79,7 @@
       };
 
       $scope.checkStart = function() {
-           $http.get('/competition/' + question.competitionId + '/checkstate').
+           $http.get('/competition/' + '1' + '/checkstate').
             then(function(response) {
                if (response.data.started)
                {
