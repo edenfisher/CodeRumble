@@ -7,3 +7,4 @@ target
 /.settings
 /RUNNING_PID
 conf/evolutions/default/1.sql
+conf/evolutions/default/1.sql

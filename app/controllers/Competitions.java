@@ -56,6 +56,7 @@ public class Competitions extends Controller {
         ObjectNode result = Json.newObject();
         boolean bIsStarted = false;
         boolean bIsFinished = false;
+        boolean bFinishCompetition = false;
 
         // Initlize the competition if this is the first time the method is called
         if(comp.getCurrent_question()==0)
@@ -80,7 +81,7 @@ public class Competitions extends Controller {
                 // Checks if this is the last question
                 if(comp.getCurrent_question() == comp.getQuestions().size())
                 {
-                    // Add redirect to finish page
+                    bFinishCompetition = true;
                 }
                 else
                 {
@@ -91,12 +92,13 @@ public class Competitions extends Controller {
         }
         result.put("started", bIsStarted);
         result.put("finished", bIsFinished);
+        result.put("finishCompetition", bFinishCompetition);
         return ok(result);
     }
-    /*
-    public Result  Finish(int nID) {
-        return ok(index.render("Your new application is ready."));
+
+    public Result  finish(int nID) {
+        return ok(finish.render());
     }
-    */
+
 
 }
