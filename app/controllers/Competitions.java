@@ -78,7 +78,7 @@ public class Competitions extends Controller {
             {
                 if(cur.getCurrent_question() != comp.getCurrent_question() +1)
                 {
-                    bIsFinished = false;
+                    bAllFinished = false;
                     break;
                 }
             }
