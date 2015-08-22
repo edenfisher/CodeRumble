@@ -70,8 +70,13 @@
                               // or server returns response with an error status.
                             });
                }
+               else if (response.data.finishCompetition)
+               {
+                    window.location = "/competition/ " + document.getElementsByName('competitionId')[0].value + "/finish";
+               }
 
                $scope.finished = response.data.finished;
+
 
               // this callback will be called asynchronously
               // when the response is available
