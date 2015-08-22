@@ -16,7 +16,8 @@
 <div ng-controller="competitions">
     <form novalidate class="css-form">
 
-        Waiting: {{ started }}
+        Started: {{ started }}
+        Finished: {{ finished }}
          Timer: {{ timer }}
         <input type="hidden" ng-init="question.competitionId = @competitionId" value="@competitionId" name="competitionId" />
         Question: {{ content }}
@@ -40,34 +41,35 @@
 
 <script>
   angular.module('codeRumble', ['ngRoute'])
-    .controller('competitions', ['$scope', '$http', '$interval', '$timeout', function($scope, $http, $timeout, $interval) {
+    .controller('competitions', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
       $scope.master = '';
 
        $scope.started = false;
+       $scope.finished = false;
 
       $scope.checkState = function() {
             $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/checkstate').
             then(function(response) {
-               if (response.data.started)
+               if (response.data.started && !response.data.finished)
                {
                           $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
-                            then(function(response) {
-                               $scope.content = response.data.questionContent;
+                            then(function(questionResponse) {
+                               $scope.master = questionResponse.data.time;
+                               $scope.content = questionResponse.data.questionContent;
                                      var intr = $interval(function() {
 
                                         $scope.master--;
-                                      }, 100 * respone.data.time);
-
-                                      $timeout(function() {$interval.cancel(intr);}, 100 * respone.data.time)
+                                      }, 1000, questionResponse.data.time);
 
                               // this callback will be called asynchronously
                               // when the response is available
-                            }, function(response) {
+                            }, function(questionResponse) {
                               // called asynchronously if an error occurs
                               // or server returns response with an error status.
                             });
                }
 
+               $scope.finished = response.data.finished;
 
               // this callback will be called asynchronously
               // when the response is available
