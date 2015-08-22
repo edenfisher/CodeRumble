@@ -26,6 +26,7 @@ public class Users extends Controller {
         Form<User> form = usersForm.bindFromRequest(request());
         if(!form.hasErrors())
         {
+            form.get().setCurrent_question(1);
             form.get().save();
             session("userId", form.get().getId().toString());
             return (redirect(routes.Users.index()));

@@ -104,7 +104,9 @@ public class Questions extends Controller {
                     if(strOutput.equals(item.getResult()))
                     {
                         bIsSucceed = true;
-                        //User cur = User.find.byId(Long.parseLong(session("id")));
+                        User cur = User.find.byId(Long.parseLong(session("userId")));
+                        cur.setCurrent_question(cur.getCurrent_question() + 1);
+                        cur.save();
                     }
                 }
             }

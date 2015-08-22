@@ -73,8 +73,18 @@ public class Competitions extends Controller {
         else
         {
             bIsStarted = true;
+            boolean bAllFinished = true;
+            for (User cur : comp.getUsers())
+            {
+                if(cur.getCurrent_question() != comp.getCurrent_question() +1)
+                {
+                    bIsFinished = false;
+                    break;
+                }
+            }
+
             // Checks if the time for this question passed
-            if(new java.util.Date().getTime() >= comp.getEnd_time().getTime())
+            if(new java.util.Date().getTime() >= comp.getEnd_time().getTime() || bAllFinished)
             {
                 bIsFinished = true;
 
@@ -85,7 +95,8 @@ public class Competitions extends Controller {
                 }
                 else
                 {
-                    comp.setCurrent_question(User.find.byId(Long.parseLong(session("userId"))).getCurrent_question() + 1);
+                    comp.setCurrent_question(comp.getCurrent_question() + 1);
+                    comp.setEnd_time(new Timestamp(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
                     comp.save();
                 }
             }
