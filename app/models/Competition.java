@@ -6,6 +6,7 @@ import com.avaje.ebean.Model;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
+import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
@@ -18,7 +19,7 @@ public class Competition extends Model {
     int number_of_questions;
     int number_of_players;
     int current_question;
-    Time end_time;
+    Timestamp end_time;
     @ManyToMany
     List<Question> questions;
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
@@ -27,11 +28,11 @@ public class Competition extends Model {
     public static Finder<Long, Competition> find =
             new Finder<Long, Competition>(Long.class, Competition.class);
 
-    public Time getEnd_time() {
+    public Timestamp getEnd_time() {
         return end_time;
     }
 
-    public void setEnd_time(Time end_time) {
+    public void setEnd_time(Timestamp end_time) {
         this.end_time = end_time;
     }
 
