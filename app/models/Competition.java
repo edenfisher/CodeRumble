@@ -18,7 +18,7 @@ public class Competition extends Model {
     int number_of_questions;
     int number_of_players;
     int current_question;
-    Date end_date;
+    Time end_time;
     @ManyToMany
     List<Question> questions;
     @OneToMany(mappedBy = "competition", cascade = CascadeType.ALL)
@@ -27,12 +27,12 @@ public class Competition extends Model {
     public static Finder<Long, Competition> find =
             new Finder<Long, Competition>(Long.class, Competition.class);
 
-    public Date getEnd_date() {
-        return end_date;
+    public Time getEnd_time() {
+        return end_time;
     }
 
-    public void setEnd_date(Date end_date) {
-        this.end_date = end_date;
+    public void setEnd_time(Time end_time) {
+        this.end_time = end_time;
     }
 
     public Long getId() {

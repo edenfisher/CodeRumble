@@ -12,6 +12,7 @@ import play.mvc.*;
 import views.html.*;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Timer;
@@ -61,7 +62,7 @@ public class Competitions extends Controller {
             if(comp.getUsers().size()== comp.getNumber_of_players())
             {
                 comp.setCurrent_question(1);
-                comp.setEnd_date(new Date(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
+                comp.setEnd_time(new Time(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
                 comp.save();
                 bIsStarted = true;
             }
@@ -71,7 +72,7 @@ public class Competitions extends Controller {
             bIsStarted = true;
 
             // Checks if the time for this question passed
-            if(new java.util.Date().getTime() >= Competition.find.byId((long)nID).getEnd_date().getTime())
+            if(new java.util.Date().getTime() >= Competition.find.byId((long)nID).getEnd_time().getTime())
             {
                 bIsFinished = true;
 
