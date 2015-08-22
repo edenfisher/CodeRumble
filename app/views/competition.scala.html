@@ -46,11 +46,12 @@
 
        $scope.started = false;
        $scope.finished = false;
+       var gotCurrentQuestion = false;
 
       $scope.checkState = function() {
             $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/checkstate').
             then(function(response) {
-               if (response.data.started && !response.data.finished)
+               if (response.data.started && !response.data.finished && !gotCurrentQuestion)
                {
                           $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
                             then(function(questionResponse) {
@@ -60,6 +61,7 @@
 
                                         $scope.master--;
                                       }, 1000, questionResponse.data.time);
+                                      gotCurrentQuestion = true;
 
                               // this callback will be called asynchronously
                               // when the response is available
