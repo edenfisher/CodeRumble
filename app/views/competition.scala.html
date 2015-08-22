@@ -88,7 +88,7 @@
                           $interval.cancel(checkStart);
                           $scope.started = true;
 
-                          $interval($scope.checkState(), 200);
+                          $interval($scope.checkState, 8000);
                }
 
 
@@ -100,9 +100,7 @@
             });
         };
 
-
-
-        var checkStart = $interval($scope.checkStart(), 200);
+      var checkStart = $interval($scope.checkStart, 5000);
 
       $scope.update = function(question) {
       // Simple POST request example (passing data) :

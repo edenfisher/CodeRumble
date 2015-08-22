@@ -9,7 +9,7 @@ create table t_competitions (
   number_of_questions       integer,
   number_of_players         integer,
   current_question          integer,
-  end_date                  date,
+  end_time                  time,
   constraint pk_t_competitions primary key (id))
 ;
 
