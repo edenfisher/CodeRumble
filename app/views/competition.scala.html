@@ -25,8 +25,11 @@
         Code: <textarea ng-model="question.code" required /></textarea><br />
         <input type="submit" ng-click="update(question)" value="Save" />
     </form>
-    <pre>form = {{code | json}}</pre>
-    <pre>master = {{master}}</pre>
+    <pre>callback = {{master}}</pre>
+    <h3>Leaderboard:</h3>
+    <ul>
+        <li ng-repeat="player in players | orderBy: 'name'">{{ player.name }} {{ player.points }}</li>
+    </ul>
 </div>
 
 
@@ -48,6 +51,18 @@
        $scope.started = false;
        $scope.finished = false;
        var gotCurrentQuestion = false;
+
+      $scope.getLeaderboard = function() {
+             $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/getLeaderboard').
+            then(function(response) {
+                $scope.players = response.data;
+            }, function(response) {
+              // called asynchronously if an error occurs
+              // or server returns response with an error status.
+            });
+      };
+
+      $interval($scope.getLeaderboard, 200);
 
       $scope.checkState = function() {
             $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/checkstate').
