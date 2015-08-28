@@ -44,11 +44,20 @@ public class Competitions extends Controller {
         }
     }
 
-   // public Result GetLeaderboard() {
-     //   ArrayNode array = Json.newArray();
-       // for(User usr :)
+    public Result getLeaderboard(int nID) {
+        Competition comp = Competition.find.byId((long) nID);
+        ArrayNode array = Json.newArray();
+        ObjectNode user = Json.newObject();
+        for(User usr :comp.getUsers())
+        {
+            user.put("name", usr.getName());
+            user.put("points", usr.getPoints());
+            array.add(user);
+            user = Json.newObject();
+        }
 
-//    }
+        return ok(array);
+    }
 
     public Result  Show(int nID) {
         return ok(competition.render(nID));
