@@ -28,7 +28,7 @@
     <pre>callback = {{master}}</pre>
     <h3>Leaderboard:</h3>
     <ul>
-        <li ng-repeat="player in players | orderBy: 'name'">{{ player.name }} {{ player.points }}</li>
+        <li ng-repeat="player in players | orderBy: 'points'">{{ player.name }} {{ player.points }}</li>
     </ul>
 </div>
 
