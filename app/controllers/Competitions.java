@@ -1,10 +1,12 @@
 package controllers;
 
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.Competition;
 import models.Question;
 import models.User;
 import play.*;
+import play.api.*;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.*;
@@ -42,10 +44,11 @@ public class Competitions extends Controller {
         }
     }
 
-    /*public Result GetLeaderboard() {
-        val json
+   // public Result GetLeaderboard() {
+     //   ArrayNode array = Json.newArray();
+       // for(User usr :)
 
-    }*/
+//    }
 
     public Result  Show(int nID) {
         return ok(competition.render(nID));
@@ -59,11 +62,16 @@ public class Competitions extends Controller {
         boolean bFinishCompetition = false;
 
         // Initlize the competition if this is the first time the method is called
-        if(comp.getCurrent_question()==0)
+        if(comp.getCurrent_question() == 0)
         {
             // Check if all of the users entered
             if(comp.getUsers().size()== comp.getNumber_of_players())
             {
+                // Initilize leaderboard
+                for(User usr : comp.getUsers())
+                {
+                    usr.setPoints(0);
+                }
                 comp.setCurrent_question(1);
                 comp.setEnd_time(new Timestamp(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
                 comp.save();
@@ -95,6 +103,12 @@ public class Competitions extends Controller {
                 }
                 else
                 {
+                    for (User cur : comp.getUsers())
+                    {
+                        cur.setCurrent_question(comp.getCurrent_question() + 1);
+                        cur.save();
+                    }
+
                     comp.setCurrent_question(comp.getCurrent_question() + 1);
                     comp.setEnd_time(new Timestamp(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
                     comp.save();
@@ -104,6 +118,7 @@ public class Competitions extends Controller {
         result.put("started", bIsStarted);
         result.put("finished", bIsFinished);
         result.put("finishCompetition", bFinishCompetition);
+        result.put("currQuestion", comp.getCurrent_question());
         return ok(result);
     }
 

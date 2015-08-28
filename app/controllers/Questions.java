@@ -95,7 +95,7 @@ public class Questions extends Controller {
                 // Add maybe /n
                 strOutput+=s;
             }
-            // TODO: CHECK SUCCESS
+
             List<Question> lst = Competition.find.byId((long)nID).getQuestions();
             for(Question item : lst)
             {
@@ -105,6 +105,7 @@ public class Questions extends Controller {
                     {
                         bIsSucceed = true;
                         User cur = User.find.byId(Long.parseLong(session("userId")));
+                        cur.setPoints(cur.getPoints()+ 10);
                         cur.setCurrent_question(cur.getCurrent_question() + 1);
                         cur.save();
                     }

@@ -29,7 +29,7 @@ public class Users extends Controller {
             form.get().setCurrent_question(1);
             form.get().save();
             session("userId", form.get().getId().toString());
-            return (redirect(routes.Users.index()));
+            return (redirect(routes.Competitions.Show((int)(long)form.get().getCompetition().getId())));
         }
         else
         {

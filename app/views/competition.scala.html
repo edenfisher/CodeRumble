@@ -8,6 +8,7 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-route.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-cookies.js"></script>
 
 
 </head>
@@ -40,10 +41,10 @@
 </style>
 
 <script>
-  angular.module('codeRumble', ['ngRoute'])
-    .controller('competitions', ['$scope', '$http', '$interval', function($scope, $http, $interval) {
+  angular.module('codeRumble', ['ngCookies'])
+    .controller('competitions', ['$cookies', '$scope', '$http', '$interval', function($cookies, $scope, $http, $interval) {
       $scope.master = '';
-
+       var intr = null;
        $scope.started = false;
        $scope.finished = false;
        var gotCurrentQuestion = false;
@@ -51,15 +52,21 @@
       $scope.checkState = function() {
             $http.get('/competition/' + document.getElementsByName('competitionId')[0].value + '/checkstate').
             then(function(response) {
-               if (response.data.started && !response.data.finished && !gotCurrentQuestion)
+               if ((response.data.started && !response.data.finished && !gotCurrentQuestion) ||
+                    $cookies.get("currentQuestion") != response.data.currQuestion)
                {
                           $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
                             then(function(questionResponse) {
-                               $scope.master = questionResponse.data.time;
+                               $cookies.put("currentQuestion", response.data.currQuestion);
+                               $scope.timer = questionResponse.data.time;
                                $scope.content = questionResponse.data.questionContent;
-                                     var intr = $interval(function() {
+                                     if (intr != null)
+                                     {
+                                        $interval.cancel(intr);
+                                     }
+                                     intr = $interval(function() {
 
-                                        $scope.master--;
+                                        $scope.timer--;
                                       }, 1000, questionResponse.data.time);
                                       gotCurrentQuestion = true;
 
@@ -73,6 +80,10 @@
                else if (response.data.finishCompetition)
                {
                     window.location = "/competition/" + document.getElementsByName('competitionId')[0].value + "/finish";
+               }
+               else if (response.data.finished)
+               {
+                    gotCurrentQuestion = false;
                }
 
                $scope.finished = response.data.finished;
@@ -95,7 +106,7 @@
                           $interval.cancel(checkStart);
                           $scope.started = true;
 
-                          $interval($scope.checkState, 8000);
+                          $interval($scope.checkState, 200);
                }
 
 
@@ -107,7 +118,7 @@
             });
         };
 
-      var checkStart = $interval($scope.checkStart, 5000);
+      var checkStart = $interval($scope.checkStart, 200);
 
       $scope.update = function(question) {
       // Simple POST request example (passing data) :
