@@ -19,7 +19,7 @@
 
         Started: {{ started }}
         Finished: {{ finished }}
-         Timer: {{ timer }}
+          Timer: <span ng-class="{ timer: isRed }"> {{ timer }} </span>
         <input type="hidden" ng-init="question.competitionId = @competitionId" value="@competitionId" name="competitionId" />
         Question: {{ content }}
         Code: <textarea ng-model="question.code" required /></textarea><br />
@@ -44,6 +44,11 @@
 
     .currentUser {
         font-weight: bold;
+    }
+
+    .timer
+    {
+        color: red;
     }
 </style>
 
@@ -76,16 +81,21 @@
                {
                           $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
                             then(function(questionResponse) {
+                               $scope.isRed = false;
                                $cookies.put("currentQuestion", response.data.currQuestion);
-                               $scope.timer = questionResponse.data.time;
+                               $scope.calctimer = questionResponse.data.time;
                                $scope.content = questionResponse.data.questionContent;
                                      if (intr != null)
                                      {
                                         $interval.cancel(intr);
                                      }
                                      intr = $interval(function() {
-
-                                        $scope.timer--;
+                                        $scope.calctimer--;
+                                        if ($scope.calctimer < 10 && !$scope.isRed)
+                                        {
+                                            $scope.isRed = true;
+                                        }
+                                        $scope.timer = ~~($scope.calctimer / 60) + ":" + $scope.calctimer % 60;
                                       }, 1000, questionResponse.data.time);
                                       gotCurrentQuestion = true;
 
