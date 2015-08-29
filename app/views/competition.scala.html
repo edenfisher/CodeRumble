@@ -28,7 +28,7 @@
     <pre>callback = {{master}}</pre>
     <h3>Leaderboard:</h3>
     <ul>
-        <li ng-repeat="player in players | orderBy: 'name'" ng-class="{currentUser: player.isMe}">{{ player.name }} {{ player.points }}</li>
+        <li ng-repeat="player in players | orderBy: '-points'" ng-class="{currentUser: player.isMe}">{{ player.name }} {{ player.points }}</li>
     </ul>
 </div>
 
@@ -81,26 +81,40 @@
                {
                           $http.get('/getCurrentQuestion?compId=' + document.getElementsByName('competitionId')[0].value).
                             then(function(questionResponse) {
-                               $scope.isRed = false;
-                               $cookies.put("currentQuestion", response.data.currQuestion);
-                               $scope.calctimer = questionResponse.data.time;
-                               $scope.content = questionResponse.data.questionContent;
-                                     if (intr != null)
-                                     {
-                                        $interval.cancel(intr);
-                                     }
-                                     intr = $interval(function() {
-                                        $scope.calctimer--;
-                                        if ($scope.calctimer < 10 && !$scope.isRed)
-                                        {
-                                            $scope.isRed = true;
-                                        }
-                                        $scope.timer = ($scope.calctimer / 60) >> 0 + ":" + $scope.calctimer % 60;
-                                      }, 1000, questionResponse.data.time);
-                                      gotCurrentQuestion = true;
+                               var delay = $interval(
+                               function() {
+                                    var time = ((questionResponse.data.endtime - new Date().getTime())/ 1000) >> 0;
+                                    if(time <= questionResponse.data.time)
+                                    {
+                                    $interval.cancel(delay);
+                                    $cookies.put("currentQuestion", response.data.currQuestion);
+                                   $scope.calctimer = time;
+                                   $scope.content = questionResponse.data.questionContent;
+                                         if (intr != null)
+                                         {
+                                            $interval.cancel(intr);
+                                            $scope.isRed = false;
+                                         }
+                                         intr = $interval(function() {
+                                            $scope.calctimer--;
+                                            if ($scope.calctimer < 10 && !$scope.isRed)
+                                            {
+                                                $scope.isRed = true;
+                                            }
+                                                var minutes = (($scope.calctimer / 60) >> 0);
+                                                var seconds = $scope.calctimer % 60;
+                                                if (minutes < 10) {minutes = "0"+minutes;}
+                                                if (seconds < 10) {seconds = "0"+seconds;}
 
-                              // this callback will be called asynchronously
-                              // when the response is available
+                                            $scope.timer = minutes + ":" + seconds;
+                                          }, 1000, questionResponse.data.time);
+                                          gotCurrentQuestion = true;
+
+
+                                    }
+                                }
+                               ,100);
+
                             }, function(questionResponse) {
                               // called asynchronously if an error occurs
                               // or server returns response with an error status.

@@ -88,7 +88,7 @@ public class Competitions extends Controller {
                     usr.setPoints(0);
                 }
                 comp.setCurrent_question(1);
-                comp.setEnd_time(new Timestamp(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
+                comp.setEnd_time(new Timestamp(10000 + new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
                 comp.save();
                 bIsStarted = true;
             }
@@ -125,7 +125,7 @@ public class Competitions extends Controller {
                     }
 
                     comp.setCurrent_question(comp.getCurrent_question() + 1);
-                    comp.setEnd_time(new Timestamp(new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
+                    comp.setEnd_time(new Timestamp(10000 + new java.util.Date().getTime() + (1000 * comp.getQuestions().get(comp.getCurrent_question() - 1).getTime())));
                     comp.save();
                 }
             }

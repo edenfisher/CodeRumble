@@ -31,8 +31,8 @@ public class Questions extends Controller {
         result.put("index", comp.getCurrent_question());
         result.put("numOfQuestions", comp.getQuestions().size());
         result.put("precenteges", (comp.getQuestions().size() - comp.getCurrent_question()) * 100);
-        //result.put("time", comp.getQuestions().get(comp.getCurrent_question()-1).getTime());
-        result.put("time", comp.getEnd_time().getTime());
+        result.put("time", comp.getQuestions().get(comp.getCurrent_question()-1).getTime());
+        result.put("endtime", comp.getEnd_time().getTime());
         return ok(result);
     }
 
