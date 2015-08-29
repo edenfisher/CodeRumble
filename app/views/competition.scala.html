@@ -95,7 +95,7 @@
                                         {
                                             $scope.isRed = true;
                                         }
-                                        $scope.timer = ~~($scope.calctimer / 60) + ":" + $scope.calctimer % 60;
+                                        $scope.timer = ($scope.calctimer / 60) >> 0 + ":" + $scope.calctimer % 60;
                                       }, 1000, questionResponse.data.time);
                                       gotCurrentQuestion = true;
 
