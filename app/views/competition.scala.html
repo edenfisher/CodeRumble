@@ -28,7 +28,7 @@
     <pre>callback = {{master}}</pre>
     <h3>Leaderboard:</h3>
     <ul>
-        <li ng-repeat="player in players | orderBy: 'name'" ng-class="{currentUser: player.bIsMe}">{{ player.name }} {{ player.points }}</li>
+        <li ng-repeat="player in players | orderBy: 'name'" ng-class="{currentUser: player.isMe}">{{ player.name }} {{ player.points }}</li>
     </ul>
 </div>
 
@@ -147,10 +147,10 @@
           $scope.master = response.data.compileError;
         }
         else if (response.data.success) {
-            $scope.master = "Success - " + respose.data.answer;
+            $scope.master = "Success - " + response.data.answer;
         }
         else {
-            $scope.master = "compiled but invalid answer - " + respose.data.answer;
+            $scope.master = "compiled but invalid answer - " + response.data.answer;
         }
           // this callback will be called asynchronously
           // when the response is available
