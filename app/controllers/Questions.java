@@ -31,7 +31,8 @@ public class Questions extends Controller {
         result.put("index", comp.getCurrent_question());
         result.put("numOfQuestions", comp.getQuestions().size());
         result.put("precenteges", (comp.getQuestions().size() - comp.getCurrent_question()) * 100);
-        result.put("time", comp.getQuestions().get(comp.getCurrent_question()-1).getTime());
+        //result.put("time", comp.getQuestions().get(comp.getCurrent_question()-1).getTime());
+        result.put("time", comp.getEnd_time().getTime());
         return ok(result);
     }
 
@@ -105,8 +106,8 @@ public class Questions extends Controller {
                     {
                         bIsSucceed = true;
                         User cur = User.find.byId(Long.parseLong(session("userId")));
-                        int nPoints = (int)(item.getLevel() * ((Competition.find.byId((long)nID).getEnd_time().getTime()
-                                -System.currentTimeMillis()) / 100)) * 5;
+                        int nPoints = (int)(item.getLevel() * (((double)System.currentTimeMillis()
+                                / (double)Competition.find.byId((long)nID).getEnd_time().getTime()) *2.0));
                         cur.setPoints(cur.getPoints() + nPoints);
                         cur.setCurrent_question(cur.getCurrent_question() + 1);
                         cur.save();
