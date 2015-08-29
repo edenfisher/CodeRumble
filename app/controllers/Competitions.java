@@ -50,8 +50,14 @@ public class Competitions extends Controller {
         ObjectNode user = Json.newObject();
         for(User usr :comp.getUsers())
         {
+            boolean bIsMe = false;
             user.put("name", usr.getName());
             user.put("points", usr.getPoints());
+            if(usr.getId()== Long.parseLong(session("userId")))
+            {
+                bIsMe = true;
+            }
+            user.put("isMe",bIsMe);
             array.add(user);
             user = Json.newObject();
         }

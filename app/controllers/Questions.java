@@ -105,19 +105,22 @@ public class Questions extends Controller {
                     {
                         bIsSucceed = true;
                         User cur = User.find.byId(Long.parseLong(session("userId")));
-                        cur.setPoints(cur.getPoints()+ 10);
+                        int nPoints = (int)(item.getLevel() * ((Competition.find.byId((long)nID).getEnd_time().getTime()
+                                -System.currentTimeMillis()) / 100)) * 5;
+                        cur.setPoints(cur.getPoints() + nPoints);
                         cur.setCurrent_question(cur.getCurrent_question() + 1);
                         cur.save();
                     }
                 }
             }
-            //return ok(strOutput);
+            result.put("answer", strOutput);
         }
 
 
 
         result.put("success", bIsSucceed);
         result.put("compiled", bIsCompiled);
+
         return ok(result);
 
     }
